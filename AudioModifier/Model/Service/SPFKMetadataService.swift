@@ -19,7 +19,16 @@ import SPFKMetadata
 import SPFKMetadataC
 #endif
 
+/// Adaptador entre o app e o pacote externo SPFKMetadata.
+///
+/// O restante do projeto não importa `SPFKMetadata` diretamente. Essa decisão deixa
+/// a dependência isolada: se no futuro outra biblioteca for usada para ler/escrever
+/// tags, a maior parte da troca fica concentrada neste arquivo.
 struct SPFKMetadataService {
+    /// Lê tags musicais comuns e tags extras de um arquivo de áudio.
+    ///
+    /// Quando `SPFKMetadata` não está disponível no target, este método retorna `nil`.
+    /// Isso permite que o projeto continue compilando durante configuração do pacote.
     func readMetadata(from url: URL) throws -> AudioMetadata? {
         #if canImport(SPFKMetadata)
         let properties = try TagProperties(url: url)
@@ -42,6 +51,10 @@ struct SPFKMetadataService {
         #endif
     }
 
+    /// Lê propriedades técnicas usando SPFKMetadata/TagLib quando possível.
+    ///
+    /// O bitrate retornado pela biblioteca vem em kbit/s, por isso é multiplicado
+    /// por `1_000` para manter o padrão do app: bits por segundo.
     func readTechnicalInfo(from url: URL) throws -> AudioTechnicalInfo? {
         #if canImport(SPFKMetadata)
         guard let properties = try TagProperties(url: url).audioProperties else {
@@ -60,6 +73,10 @@ struct SPFKMetadataService {
         #endif
     }
 
+    /// Salva tags e, se necessário, capa no arquivo informado.
+    ///
+    /// Strings vazias são convertidas para `nil`, permitindo que a biblioteca remova
+    /// ou ignore campos que o usuário deixou em branco.
     func saveMetadata(_ metadata: EditableAudioMetadata, to url: URL) throws {
         #if canImport(SPFKMetadata)
         var properties = try TagProperties(url: url)
@@ -87,6 +104,10 @@ struct SPFKMetadataService {
     }
 
     #if canImport(SPFKMetadata)
+    /// Converte tags do SPFKMetadata para itens extras exibíveis na UI.
+    ///
+    /// Os campos principais são removidos desta lista para evitar que apareçam duas
+    /// vezes: uma como campo dedicado e outra como tag extra.
     private func visibleTags(from properties: TagProperties) -> [AudioMetadataItem] {
         let primaryKeys: Set<TagKey> = [
             .title,
@@ -112,6 +133,11 @@ struct SPFKMetadataService {
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
+    /// Salva a capa no arquivo de áudio.
+    ///
+    /// O SPFKMetadata cria `TagPictureRef` a partir de uma URL. Como o app guarda a
+    /// imagem como `Data`, este método cria um arquivo JPEG temporário, usa a URL
+    /// temporária para construir o `TagPictureRef` e remove o arquivo em seguida.
     private func saveCoverImage(from imageData: Data, to audioURL: URL) throws {
         let jpegData = try CoverImageConverter.jpegDataForMetadata(from: imageData)
         let imageURL = FileManager.default.temporaryDirectory
@@ -144,6 +170,7 @@ struct SPFKMetadataService {
         }
     }
 
+    /// Lê a capa embutida no arquivo e converte para dados exibíveis pelo SwiftUI.
     private func coverImageData(from url: URL) -> Data? {
         #if canImport(AppKit)
         guard let pictureRef = try? TagPictureRef.parsing(url: url) else {
@@ -159,7 +186,9 @@ struct SPFKMetadataService {
     #endif
 }
 
+/// Pequena conversão para tratar campos vazios do formulário.
 private extension String {
+    /// Retorna `nil` quando a string está vazia depois de remover espaços.
     var nilIfBlank: String? {
         let value = trimmingCharacters(in: .whitespacesAndNewlines)
         return value.isEmpty ? nil : value

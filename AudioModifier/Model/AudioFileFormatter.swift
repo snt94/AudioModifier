@@ -7,7 +7,12 @@
 
 import Foundation
 
+/// Formata valores técnicos de áudio para textos amigáveis na interface.
+///
+/// Manter essa lógica fora das Views evita repetir conversões como segundos para
+/// `mm:ss` ou Hertz para kHz em vários lugares do app.
 struct AudioFileFormatter {
+    /// Converte segundos em um texto no formato `minutos:segundos`.
     func duration(_ value: Double) -> String {
         guard value.isFinite, value > 0 else {
             return "Desconhecida"
@@ -20,6 +25,7 @@ struct AudioFileFormatter {
         return String(format: "%d:%02d", minutes, seconds)
     }
 
+    /// Converte bits por segundo para kbps.
     func bitrate(_ value: Int) -> String {
         guard value > 0 else {
             return "Desconhecido"
@@ -28,6 +34,7 @@ struct AudioFileFormatter {
         return "\(value / 1_000) kbps"
     }
 
+    /// Converte Hertz para kHz.
     func sampleRate(_ value: Double) -> String {
         guard value > 0 else {
             return "Desconhecida"
@@ -38,6 +45,7 @@ struct AudioFileFormatter {
             .replacingOccurrences(of: ".0 kHz", with: " kHz")
     }
 
+    /// Mostra a quantidade de canais com nomes comuns quando possível.
     func channelCount(_ value: Int) -> String {
         switch value {
         case 1:
@@ -51,6 +59,7 @@ struct AudioFileFormatter {
         }
     }
 
+    /// Formata a profundidade de bits.
     func bitDepth(_ value: Int) -> String {
         guard value > 0 else {
             return "Desconhecido"

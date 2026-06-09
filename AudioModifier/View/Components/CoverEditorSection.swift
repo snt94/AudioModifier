@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Seção do formulário usada para visualizar e trocar a capa.
 struct CoverEditorSection: View {
     let imageData: Data?
     let isSaving: Bool

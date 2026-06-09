@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A55918402FD828FF00197264 /* SPFKMetadata in Frameworks */ = {isa = PBXBuildFile; productRef = A559183F2FD828FF00197264 /* SPFKMetadata */; };
+		A55918542FD83A7300197264 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = A55918532FD83A7300197264 /* Documentation.docc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,7 @@
 		A527E55D2FD4CD0B000337E5 /* AudioModifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioModifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A527E56A2FD4CD0D000337E5 /* AudioModifierTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AudioModifierTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A527E5742FD4CD0D000337E5 /* AudioModifierUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AudioModifierUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A55918532FD83A7300197264 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -80,6 +82,7 @@
 		A527E5542FD4CD0B000337E5 = {
 			isa = PBXGroup;
 			children = (
+				A55918532FD83A7300197264 /* Documentation.docc */,
 				A527E55F2FD4CD0B000337E5 /* AudioModifier */,
 				A527E56D2FD4CD0D000337E5 /* AudioModifierTests */,
 				A527E5772FD4CD0D000337E5 /* AudioModifierUITests */,
@@ -253,6 +256,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A55918542FD83A7300197264 /* Documentation.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Barra de ações do editor de metadados.
 struct EditMetadataActionBar: View {
     let isSaving: Bool
     let onCancel: () -> Void

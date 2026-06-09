@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Campos principais do formulário de metadados.
 struct MetadataMainFieldsSection: View {
     @Binding var metadata: EditableAudioMetadata
 
@@ -20,6 +21,7 @@ struct MetadataMainFieldsSection: View {
     }
 }
 
+/// Campos complementares do formulário de metadados.
 struct MetadataDetailsSection: View {
     @Binding var metadata: EditableAudioMetadata
 

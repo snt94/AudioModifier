@@ -8,6 +8,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
+/// Tela principal para selecionar um áudio, visualizar dados técnicos e abrir o editor de metadados.
 struct SelectView: View {
     @State private var viewModel = SelectViewModel()
     private let formatter = AudioFileFormatter()
@@ -186,7 +187,6 @@ struct SelectView: View {
             LabeledContent(label, value: value)
         }
     }
-
 }
 
 #Preview {

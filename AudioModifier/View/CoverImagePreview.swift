@@ -11,6 +11,7 @@ import SwiftUI
 import AppKit
 #endif
 
+/// Prévia reutilizável da capa do áudio.
 struct CoverImagePreview: View {
     let imageData: Data?
     var size: CGFloat = 96
@@ -37,10 +38,7 @@ struct CoverImagePreview: View {
 
     #if canImport(AppKit)
     private var coverImage: NSImage? {
-        guard let imageData else {
-            return nil
-        }
-
+        guard let imageData else { return nil }
         return NSImage(data: imageData)
     }
     #else

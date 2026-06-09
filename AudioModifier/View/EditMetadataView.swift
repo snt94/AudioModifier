@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Sheet de edição dos metadados do arquivo selecionado.
 struct EditMetadataView: View {
     @Bindable var viewModel: EditMetadataViewModel
     let onCancel: () -> Void

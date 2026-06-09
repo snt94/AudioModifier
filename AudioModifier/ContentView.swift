@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// View raiz da janela principal.
 struct ContentView: View {
     var body: some View {
         SelectView()
