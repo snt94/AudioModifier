@@ -9,6 +9,8 @@ import Foundation
 
 #if canImport(AppKit)
 import AppKit
+#elseif canImport(UIKit)
+import UIKit
 #endif
 
 #if canImport(SPFKMetadata)
@@ -172,13 +174,16 @@ struct SPFKMetadataService {
 
     /// Lê a capa embutida no arquivo e converte para dados exibíveis pelo SwiftUI.
     private func coverImageData(from url: URL) -> Data? {
-        #if canImport(AppKit)
         guard let pictureRef = try? TagPictureRef.parsing(url: url) else {
             return nil
         }
 
+        #if canImport(AppKit)
         let image = NSImage(cgImage: pictureRef.cgImage, size: .zero)
         return image.tiffRepresentation
+        #elseif canImport(UIKit)
+        let image = UIImage(cgImage: pictureRef.cgImage)
+        return image.jpegData(compressionQuality: 0.92) ?? image.pngData()
         #else
         return nil
         #endif

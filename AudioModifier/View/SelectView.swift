@@ -10,14 +10,23 @@ import UniformTypeIdentifiers
 
 /// Tela principal para selecionar um áudio, visualizar dados técnicos e abrir o editor de metadados.
 struct SelectView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @State private var viewModel = SelectViewModel()
     private let formatter = AudioFileFormatter()
+
+    private var isCompact: Bool {
+        horizontalSizeClass == .compact
+    }
+
+    private var contentPadding: CGFloat {
+        isCompact ? 16 : 32
+    }
 
     var body: some View {
         @Bindable var viewModel = viewModel
 
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
+            VStack(alignment: .leading, spacing: isCompact ? 18 : 24) {
                 header
                 selectButton
 
@@ -29,8 +38,8 @@ struct SelectView: View {
                     selectedAudioSection(audioFile)
                 }
             }
-            .frame(maxWidth: 760, alignment: .leading)
-            .padding(32)
+            .frame(maxWidth: isCompact ? .infinity : 760, alignment: .leading)
+            .padding(contentPadding)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .fileImporter(
@@ -67,7 +76,7 @@ struct SelectView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Selecionar áudio")
-                .font(.title)
+                .font(isCompact ? .title2 : .title)
                 .fontWeight(.semibold)
 
             Text("Escolha um arquivo de áudio para carregar informações técnicas e tags de metadados.")
@@ -80,6 +89,7 @@ struct SelectView: View {
             viewModel.isImporterPresented = true
         } label: {
             Label("Selecionar arquivo", systemImage: "music.note")
+                .frame(maxWidth: isCompact ? .infinity : nil)
         }
         .buttonStyle(.borderedProminent)
         .disabled(viewModel.isLoading)
@@ -106,7 +116,7 @@ struct SelectView: View {
     }
 
     private func selectedAudioSection(_ audioFile: AudioFile) -> some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: isCompact ? 14 : 20) {
             technicalInfoSection(audioFile)
             metadataSection(audioFile.metadata)
         }
@@ -139,7 +149,8 @@ struct SelectView: View {
             LabeledContent("Bit depth", value: formatter.bitDepth(audioFile.bitDepth))
             LabeledContent("Caminho", value: audioFile.url.path)
         }
-        .padding()
+        .padding(isCompact ? 14 : 16)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(.regularMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
@@ -151,7 +162,7 @@ struct SelectView: View {
 
             if let metadata, metadata.hasVisibleValues {
                 if metadata.coverImageData != nil {
-                    CoverImagePreview(imageData: metadata.coverImageData, size: 120)
+                    CoverImagePreview(imageData: metadata.coverImageData, size: isCompact ? 96 : 120)
                 }
 
                 metadataRow("Título", metadata.title)
@@ -176,7 +187,8 @@ struct SelectView: View {
                     .foregroundStyle(.secondary)
             }
         }
-        .padding()
+        .padding(isCompact ? 14 : 16)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(.regularMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }

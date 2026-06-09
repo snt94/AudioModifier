@@ -9,18 +9,28 @@ import SwiftUI
 
 /// Sheet de edição dos metadados do arquivo selecionado.
 struct EditMetadataView: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
     @Bindable var viewModel: EditMetadataViewModel
     let onCancel: () -> Void
     let onSave: (AudioFile) -> Void
 
+    private var isCompact: Bool {
+        horizontalSizeClass == .compact
+    }
+
+    private var contentPadding: CGFloat {
+        isCompact ? 16 : 24
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .leading, spacing: isCompact ? 14 : 20) {
             header
             formContent
             actionBar
         }
-        .frame(minWidth: 520, minHeight: 620)
-        .padding(24)
+        .frame(maxWidth: isCompact ? .infinity : 620, maxHeight: .infinity, alignment: .topLeading)
+        .padding(contentPadding)
         .fileImporter(
             isPresented: $viewModel.isCoverImporterPresented,
             allowedContentTypes: viewModel.supportedCoverTypes,
@@ -50,7 +60,7 @@ struct EditMetadataView: View {
     private var header: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text("Editar metadados")
-                .font(.title2)
+                .font(isCompact ? .headline : .title2)
                 .fontWeight(.semibold)
 
             Text(viewModel.audioFile.url.lastPathComponent)
@@ -76,6 +86,7 @@ struct EditMetadataView: View {
             MetadataDetailsSection(metadata: $viewModel.metadata)
         }
         .formStyle(.grouped)
+        .frame(maxWidth: .infinity)
     }
 
     private var actionBar: some View {

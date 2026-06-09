@@ -9,31 +9,52 @@ import SwiftUI
 
 /// Barra de ações do editor de metadados.
 struct EditMetadataActionBar: View {
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
     let isSaving: Bool
     let onCancel: () -> Void
     let onSave: () -> Void
 
+    private var isCompact: Bool {
+        horizontalSizeClass == .compact
+    }
+
     var body: some View {
-        HStack {
-            Spacer()
-
-            Button("Cancelar") {
-                onCancel()
+        if isCompact {
+            VStack(spacing: 10) {
+                saveButton
+                cancelButton
             }
-            .disabled(isSaving)
-
-            Button {
-                onSave()
-            } label: {
-                if isSaving {
-                    ProgressView()
-                        .controlSize(.small)
-                } else {
-                    Label("Salvar", systemImage: "checkmark")
-                }
+        } else {
+            HStack {
+                Spacer()
+                cancelButton
+                saveButton
             }
-            .buttonStyle(.borderedProminent)
-            .disabled(isSaving)
         }
+    }
+
+    private var cancelButton: some View {
+        Button("Cancelar") {
+            onCancel()
+        }
+        .frame(maxWidth: isCompact ? .infinity : nil)
+        .disabled(isSaving)
+    }
+
+    private var saveButton: some View {
+        Button {
+            onSave()
+        } label: {
+            if isSaving {
+                ProgressView()
+                    .controlSize(.small)
+            } else {
+                Label("Salvar", systemImage: "checkmark")
+            }
+        }
+        .buttonStyle(.borderedProminent)
+        .frame(maxWidth: isCompact ? .infinity : nil)
+        .disabled(isSaving)
     }
 }

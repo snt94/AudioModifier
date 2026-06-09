@@ -9,6 +9,8 @@ import SwiftUI
 
 #if canImport(AppKit)
 import AppKit
+#elseif canImport(UIKit)
+import UIKit
 #endif
 
 /// Prévia reutilizável da capa do áudio.
@@ -22,26 +24,40 @@ struct CoverImagePreview: View {
                 .fill(.secondary.opacity(0.12))
                 .frame(width: size, height: size)
 
-            if let image = coverImage {
-                Image(nsImage: image)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: size, height: size)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-            } else {
-                Image(systemName: "music.note")
-                    .font(.largeTitle)
-                    .foregroundStyle(.secondary)
-            }
+            coverContent
         }
     }
 
-    #if canImport(AppKit)
-    private var coverImage: NSImage? {
-        guard let imageData else { return nil }
-        return NSImage(data: imageData)
+    @ViewBuilder
+    private var coverContent: some View {
+        #if canImport(AppKit)
+        if let imageData, let image = NSImage(data: imageData) {
+            Image(nsImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: size, height: size)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        } else {
+            placeholder
+        }
+        #elseif canImport(UIKit)
+        if let imageData, let image = UIImage(data: imageData) {
+            Image(uiImage: image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: size, height: size)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        } else {
+            placeholder
+        }
+        #else
+        placeholder
+        #endif
     }
-    #else
-    private var coverImage: NSImage? { nil }
-    #endif
+
+    private var placeholder: some View {
+        Image(systemName: "music.note")
+            .font(.largeTitle)
+            .foregroundStyle(.secondary)
+    }
 }

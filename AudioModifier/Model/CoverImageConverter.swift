@@ -9,18 +9,17 @@ import Foundation
 
 #if canImport(AppKit)
 import AppKit
+#elseif canImport(UIKit)
+import UIKit
 #endif
 
 /// Converte imagens de capa entre formatos usados pela interface e pela escrita de metadados.
 ///
 /// O usuário pode selecionar imagens comuns como JPG, PNG, TIFF, HEIC ou WebP.
-/// A interface precisa apenas de dados que o `NSImage` consiga renderizar, enquanto
+/// A interface precisa apenas de dados renderizáveis pela plataforma, enquanto
 /// o TagLib/SPFKMetadata recebe melhor uma imagem preparada como JPEG para gravação.
 enum CoverImageConverter {
     /// Valida dados de imagem e devolve uma representação segura para exibir no SwiftUI.
-    ///
-    /// No macOS, a conversão passa por `NSImage` e `tiffRepresentation`, que normaliza
-    /// vários formatos de entrada para uma representação que a prévia consegue carregar.
     static func displayableData(from sourceData: Data) throws -> Data {
         #if canImport(AppKit)
         guard let image = NSImage(data: sourceData), let tiffData = image.tiffRepresentation else {
@@ -28,15 +27,18 @@ enum CoverImageConverter {
         }
 
         return tiffData
+        #elseif canImport(UIKit)
+        guard UIImage(data: sourceData) != nil else {
+            throw imageError("Não foi possível reconhecer a imagem selecionada.")
+        }
+
+        return sourceData
         #else
         return sourceData
         #endif
     }
 
     /// Converte a capa para JPEG antes de salvar no arquivo de áudio.
-    ///
-    /// A escrita de capa passa pelo SPFKMetadata/TagLib. Usar JPEG reduz diferenças
-    /// entre formatos de imagem e torna o processo mais previsível.
     static func jpegDataForMetadata(from sourceData: Data) throws -> Data {
         #if canImport(AppKit)
         guard let image = NSImage(data: sourceData),
@@ -48,12 +50,19 @@ enum CoverImageConverter {
         }
 
         return jpegData
+        #elseif canImport(UIKit)
+        guard let image = UIImage(data: sourceData),
+              let jpegData = image.jpegData(compressionQuality: 0.92)
+        else {
+            throw imageError("Não foi possível converter a imagem selecionada para JPEG.")
+        }
+
+        return jpegData
         #else
         return sourceData
         #endif
     }
 
-    /// Cria um erro Foundation simples com uma mensagem amigável para a interface.
     private static func imageError(_ message: String) -> NSError {
         NSError(
             domain: "AudioModifier.CoverImageConverter",
