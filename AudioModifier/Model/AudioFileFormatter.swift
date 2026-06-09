@@ -8,24 +8,54 @@
 import Foundation
 
 struct AudioFileFormatter {
-    func formatDuration(_ duration: Double) -> String {
-        guard duration.isFinite, duration > 0 else {
+    func duration(_ value: Double) -> String {
+        guard value.isFinite, value > 0 else {
             return "Desconhecida"
         }
-        
-        let totalSeconds = Int(duration.rounded())
+
+        let totalSeconds = Int(value.rounded())
         let minutes = totalSeconds / 60
         let seconds = totalSeconds % 60
-        
+
         return String(format: "%d:%02d", minutes, seconds)
     }
-    
-    func formatBitrate(_ bitrate: Int) -> String {
-        guard bitrate > 0 else {
+
+    func bitrate(_ value: Int) -> String {
+        guard value > 0 else {
             return "Desconhecido"
         }
-        
-        return "\(bitrate / 1_000) kbps"
+
+        return "\(value / 1_000) kbps"
     }
-    
+
+    func sampleRate(_ value: Double) -> String {
+        guard value > 0 else {
+            return "Desconhecida"
+        }
+
+        let kHz = value / 1_000
+        return String(format: "%.1f kHz", kHz)
+            .replacingOccurrences(of: ".0 kHz", with: " kHz")
+    }
+
+    func channelCount(_ value: Int) -> String {
+        switch value {
+        case 1:
+            return "Mono"
+        case 2:
+            return "Stereo"
+        case 3...:
+            return "\(value) canais"
+        default:
+            return "Desconhecido"
+        }
+    }
+
+    func bitDepth(_ value: Int) -> String {
+        guard value > 0 else {
+            return "Desconhecido"
+        }
+
+        return "\(value) bits"
+    }
 }

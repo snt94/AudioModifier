@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct AudioFile: Codable {
+struct AudioFile: Codable, Hashable {
     let name: String
     let url: URL
     let duration: Double
     let bitrate: Int
-    // let sampleRate: Int
-    // let channels: Int
+    let sampleRate: Double
+    let channelCount: Int
     let format: String
     let bitDepth: Int
+    let metadata: AudioMetadata?
 }

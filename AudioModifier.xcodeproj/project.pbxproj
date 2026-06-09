@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A55918402FD828FF00197264 /* SPFKMetadata in Frameworks */ = {isa = PBXBuildFile; productRef = A559183F2FD828FF00197264 /* SPFKMetadata */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A527E56B2FD4CD0D000337E5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A55918402FD828FF00197264 /* SPFKMetadata in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 				A527E55F2FD4CD0B000337E5 /* AudioModifier */,
 				A527E56D2FD4CD0D000337E5 /* AudioModifierTests */,
 				A527E5772FD4CD0D000337E5 /* AudioModifierUITests */,
+				A559183E2FD828FF00197264 /* Frameworks */,
 				A527E55E2FD4CD0B000337E5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +96,13 @@
 				A527E5742FD4CD0D000337E5 /* AudioModifierUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A559183E2FD828FF00197264 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +125,7 @@
 			);
 			name = AudioModifier;
 			packageProductDependencies = (
+				A559183F2FD828FF00197264 /* SPFKMetadata */,
 			);
 			productName = AudioModifier;
 			productReference = A527E55D2FD4CD0B000337E5 /* AudioModifier.app */;
@@ -195,6 +209,9 @@
 			);
 			mainGroup = A527E5542FD4CD0B000337E5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A55918372FD8274700197264 /* XCRemoteSwiftPackageReference "spfk-metadata" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A527E55E2FD4CD0B000337E5 /* Products */;
 			projectDirPath = "";
@@ -395,8 +412,18 @@
 				DEVELOPMENT_TEAM = 5QKLN63F94;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -439,8 +466,18 @@
 				DEVELOPMENT_TEAM = 5QKLN63F94;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
@@ -615,6 +652,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A55918372FD8274700197264 /* XCRemoteSwiftPackageReference "spfk-metadata" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ryanfrancesconi/spfk-metadata";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A559183F2FD828FF00197264 /* SPFKMetadata */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A55918372FD8274700197264 /* XCRemoteSwiftPackageReference "spfk-metadata" */;
+			productName = SPFKMetadata;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A527E5552FD4CD0B000337E5 /* Project object */;
 }
